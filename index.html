@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     
-    <title>北市災害資訊</title>   
+    <title>蘇迪勒颱風 - 台北市災害動態資訊</title>   
     
     <link rel="stylesheet" href="http://meyerweb.com/eric/tools/css/reset/reset.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -27,7 +27,7 @@
 
 <body ng-app = "app">
  <header>  
-	 <h2>北市災害資訊</h2>
+	 <h2>蘇迪勒颱風 - 台北市災害動態資訊</h2>
  </header> 
   <div>
       <img id="spinner" ng-src="./img/spinner.gif" style="display:none;">
@@ -55,9 +55,9 @@
       <li ng-class="{ active: tab===2 }">
         <a href="" ng-click="tab=2">處理中案件</a>
       </li>
-      <li ng-class="{ active: tab===3 }">
+     <!-- <li ng-class="{ active: tab===3 }">
         <a href="" ng-click="tab=3">災情統計</a>
-      </li>
+      </li>-->
       <li ng-class="{ active: tab===4 }">
         <a href="" ng-click="tab=4">相關連結</a>
       </li>
@@ -136,6 +136,7 @@
 	  <li class="list-group-item"><a href="http://eocdss.ncdr.nat.gov.tw/ncdrwebv2/" target="_blank">國家災害防救科技中心 災害情資網</a></li>
 	  <li class="list-group-item"><a href="https://www.google.org/crisismap/taiwan" target="_blank">Google臺灣防災地圖</a></li>
 	  <li class="list-group-item"><a href="http://www.google.org/publicalerts/?hl=zh&gl=TW" target="_blank">Google災害示警</a></li>
+	  <li class="list-group-item"><a href="http://nds.taipower.com.tw/ndsWeb/ndft112_select1.aspx" target="_blank">台電停電資訊</a></li>
 	</ul>
   </div>
   </section>
