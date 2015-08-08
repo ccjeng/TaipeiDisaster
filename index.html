@@ -55,6 +55,9 @@
       <li ng-class="{ active: tab===2 }">
         <a href="" ng-click="tab=2">處理中案件</a>
       </li>
+      <li ng-class="{ active: tab===3 }">
+        <a href="" ng-click="tab=3">相關連結</a>
+      </li>
    </ul>
   <div class="panel" ng-show="tab===1">
    <div id="map"></div>
@@ -101,6 +104,14 @@
 	    	</tr>
     	</tbody>
    </table>
+  </div>
+  <div class="panel" ng-show="tab===3">
+  	<ul class="list-group">
+	  <li class="list-group-item"><a href="http://www.taipei.gov.tw/MP_100064.html" target="_blank">台北市防災救災專區</a></li>
+	  <li class="list-group-item"><a href="http://eocdss.ncdr.nat.gov.tw/ncdrwebv2/" target="_blank">國家災害防救科技中心 災害情資網</a></li>
+	  <li class="list-group-item"><a href="https://www.google.org/crisismap/taiwan" target="_blank">Google臺灣防災地圖</a></li>
+	  <li class="list-group-item"><a href="http://www.google.org/publicalerts/?hl=zh&gl=TW" target="_blank">Google災害示警</a></li>
+	</ul>
   </div>
   </section>
  </div>
