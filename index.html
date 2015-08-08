@@ -59,57 +59,56 @@
         <a href="" ng-click="tab=3">相關連結</a>
       </li>
    </ul>
+
   <div class="panel" ng-show="tab===1">
    <div id="map"></div>
   </div>
 
   <div class="panel" ng-show="tab===2">
+	  <select id="sel" class="form-control selectWidth" ng-model="search.CaseLocationDistrict" ng-options="obj.name as obj.name for obj in listDistrict">    
+	  </select>
+	  <table class="table table-hover">
+	  		<thead>
+	        	<tr>
+	            	<th><a href="#" ng-click="orderByField='CaseTime'; reverseSort = !reverseSort">
+	          		發生時間<span ng-show="orderByField == 'CaseTime'"><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></span>
+	          		</a>
+	          		</th>
+	            	
+	            	<th><a href="#" ng-click="orderByField='Name'; reverseSort = !reverseSort">
+	            	災情種類<span ng-show="orderByField == 'Name'"><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></span>
+	          		</a>
+	          		</th>
 
+	            	<th><a href="#" ng-click="orderByField='CaseDescription'; reverseSort = !reverseSort">
+	            	災情描述<span ng-show="orderByField == 'CaseDescription'"><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></span>
+	          		</a>
+	            	</th>
 
-  <select id="sel" class="form-control selectWidth" ng-model="search.CaseLocationDistrict" ng-options="obj.name as obj.name for obj in listDistrict">    
-  </select>
-  <table class="table table-hover">
-  		<thead>
-        	<tr>
-            	<th><a href="#" ng-click="orderByField='CaseTime'; reverseSort = !reverseSort">
-          		發生時間<span ng-show="orderByField == 'CaseTime'"><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></span>
-          		</a>
-          		</th>
-            	
-            	<th><a href="#" ng-click="orderByField='Name'; reverseSort = !reverseSort">
-            	災情種類<span ng-show="orderByField == 'Name'"><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></span>
-          		</a>
-          		</th>
+	            	<th><a href="#" ng-click="orderByField='CaseLocationDistrict'; reverseSort = !reverseSort">
+	            	行政區<span ng-show="orderByField == 'CaseLocationDistrict'"><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></span>
+	          		</a>
+	          		</th>
 
-            	<th><a href="#" ng-click="orderByField='CaseDescription'; reverseSort = !reverseSort">
-            	災情描述<span ng-show="orderByField == 'CaseDescription'"><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></span>
-          		</a>
-            	</th>
-
-            	<th><a href="#" ng-click="orderByField='CaseLocationDistrict'; reverseSort = !reverseSort">
-            	行政區<span ng-show="orderByField == 'CaseLocationDistrict'"><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></span>
-          		</a>
-          		</th>
-
-            	<th><a href="#" ng-click="orderByField='CaseLocationDescription'; reverseSort = !reverseSort">
-            	災情地點<span ng-show="orderByField == 'CaseLocationDescription'"><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></span>
-          		</a>
-            	</th>
-        	</tr>
-    	</thead>
-    	<tbody>
-    		<tr ng-repeat="case in cases | filter:{CaseComplete:'false', CaseLocationDistrict:search.CaseLocationDistrict} | orderBy:orderByField:reverseSort">
-				<td>{{case.CaseTime[0]}}</td>
-				<td>{{case.Name[0]}}</td>  
-				<td>{{case.CaseDescription[0]}}</td>  
-				<td>{{case.CaseLocationDistrict[0]}}</td>
-				<td>{{case.CaseLocationDescription[0]}}</td>	
-	    	</tr>
-    	</tbody>
-   </table>
+	            	<th><a href="#" ng-click="orderByField='CaseLocationDescription'; reverseSort = !reverseSort">
+	            	災情地點<span ng-show="orderByField == 'CaseLocationDescription'"><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></span>
+	          		</a>
+	            	</th>
+	        	</tr>
+	    	</thead>
+	    	<tbody>
+	    		<tr ng-repeat="case in cases | filter:{CaseComplete:'false', CaseLocationDistrict:search.CaseLocationDistrict} | orderBy:orderByField:reverseSort">
+					<td>{{case.CaseTime[0]}}</td>
+					<td>{{case.Name[0]}}</td>  
+					<td>{{case.CaseDescription[0]}}</td>  
+					<td>{{case.CaseLocationDistrict[0]}}</td>
+					<td>{{case.CaseLocationDescription[0]}}</td>	
+		    	</tr>
+	    	</tbody>
+	  </table>
   </div>
  
-  </div>
+
   <div class="panel" ng-show="tab===3">
   	<ul class="list-group">
 	  <li class="list-group-item"><a href="http://www.taipei.gov.tw/MP_100064.html" target="_blank">台北市防災救災專區</a></li>
@@ -120,6 +119,7 @@
 	</ul>
   </div>
   </section>
+    </div>
  </div>
     
 
