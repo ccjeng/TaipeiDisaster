@@ -39,6 +39,8 @@
   <span class="label label-danger">待處理: {{caseInProgress}}</span> 
   <span class="label label-success">已處理: {{caseDone}}</span> 
   <span class="label label-default">完成率: {{caseRate}}%</span>
+  <span style="float:right;"><a href="http://beta.hackfoldr.org/TPEDisasterSummary/" target="_blank">災情回報系統</a></span>
+
   
   <div class="progress">
           <div class="progress-bar progress-bar-danger" style="width: {{ caseInProgress / (caseInProgress+caseDone) * 100 }}%">
