@@ -65,7 +65,8 @@
 
   <div class="panel" ng-show="tab===2">
 
-  <select id="sel" class="dropdown" ng-init="search.CaseLocationDistrict = options[1]" ng-model="search.CaseLocationDistrict" ng-options="obj.name as obj.name for obj in listDistrict">    
+  
+  <select id="sel" class="form-control selectWidth" ng-model="search.CaseLocationDistrict" ng-options="obj.name as obj.name for obj in listDistrict">    
   </select>
   <table class="table table-hover">
   		<thead>
