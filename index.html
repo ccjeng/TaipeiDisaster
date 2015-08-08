@@ -64,6 +64,9 @@
   </div>
 
   <div class="panel" ng-show="tab===2">
+
+  <select id="sel" class="dropdown" ng-init="search.CaseLocationDistrict = options[1]" ng-model="search.CaseLocationDistrict" ng-options="obj.name as obj.name for obj in listDistrict">    
+  </select>
   <table class="table table-hover">
   		<thead>
         	<tr>
@@ -94,11 +97,10 @@
         	</tr>
     	</thead>
     	<tbody>
-    		<tr ng-repeat="case in cases | filter:{CaseComplete:'false'} | orderBy:orderByField:reverseSort">
+    		<tr ng-repeat="case in cases | filter:{CaseComplete:'false', CaseLocationDistrict:search.CaseLocationDistrict} | orderBy:orderByField:reverseSort">
 				<td>{{case.CaseTime[0]}}</td>
 				<td>{{case.Name[0]}}</td>  
 				<td>{{case.CaseDescription[0]}}</td>  
-				<!--<td><a href="#" ng-click="openInfoWindow($event, marker)">{{case.CaseDescription[0]}}</a></td>  -->				
 				<td>{{case.CaseLocationDistrict[0]}}</td>
 				<td>{{case.CaseLocationDescription[0]}}</td>	
 	    	</tr>
