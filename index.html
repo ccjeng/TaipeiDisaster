@@ -9,6 +9,7 @@
     
     <link rel="stylesheet" href="http://meyerweb.com/eric/tools/css/reset/reset.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel='stylesheet' href="./css/all.min.css">
 
 	<script>
@@ -26,11 +27,18 @@
 <body ng-app = "app">
  <header>  
 	 <h2>北市災害資訊</h2>
-	 <h3>資料來源：<a href="https://tpe-doit.github.io/eoc_119/ghpage/" target="_blank">臺北市政府 消防局EOC 開放資料專區</a></h3>
 
  </header> 
   <div ng-controller="GetDisasterSummary" class="col-lg-12">
-  <span class="red">處理中:{{caseInProgress}}</span> <span class="green">已處理:{{caseDone}}</span> <span>完成率: {{caseRate}}%<span>
+  <div>資料來源：<a href="https://tpe-doit.github.io/eoc_119/ghpage/" target="_blank">臺北市政府 消防局EOC 開放資料專區</a></div>
+  
+
+  <span class="red">處理中: {{caseInProgress}}</span> 
+  <span class="green">已處理: {{caseDone}}</span> 
+  <span id="ratio">完成率: {{caseRate}}%<span>
+  
+
+
   <div id="map"></div>
 
 
@@ -38,27 +46,27 @@
   		<thead>
         	<tr>
             	<th><a href="#" ng-click="orderByField='CaseTime'; reverseSort = !reverseSort">
-          		發生時間<span ng-show="orderByField == 'CaseTime'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+          		發生時間<span ng-show="orderByField == 'CaseTime'"><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></span>
           		</a>
           		</th>
             	
             	<th><a href="#" ng-click="orderByField='Name'; reverseSort = !reverseSort">
-            	災情種類<span ng-show="orderByField == 'Name'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+            	災情種類<span ng-show="orderByField == 'Name'"><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></span>
           		</a>
           		</th>
 
             	<th><a href="#" ng-click="orderByField='CaseDescription'; reverseSort = !reverseSort">
-            	災情描述<span ng-show="orderByField == 'CaseDescription'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+            	災情描述<span ng-show="orderByField == 'CaseDescription'"><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></span>
           		</a>
             	</th>
 
             	<th><a href="#" ng-click="orderByField='CaseLocationDistrict'; reverseSort = !reverseSort">
-            	行政區<span ng-show="orderByField == 'CaseLocationDistrict'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+            	行政區<span ng-show="orderByField == 'CaseLocationDistrict'"><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></span>
           		</a>
           		</th>
 
             	<th><a href="#" ng-click="orderByField='CaseLocationDescription'; reverseSort = !reverseSort">
-            	災情地點<span ng-show="orderByField == 'CaseLocationDescription'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+            	災情地點<span ng-show="orderByField == 'CaseLocationDescription'"><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></span>
           		</a>
             	</th>
         	</tr>
@@ -78,10 +86,11 @@
 
     
 
-  <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
-  <script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
+  <script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
   <script src="./js/all.min.js"></script>
 
 
