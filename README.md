@@ -1,12 +1,6 @@
-**Gulp Template**
+**北市災害資訊**
 -----------------
 
-**Install**
- 1. install node.js
- 2. install global gulp
- `npm install -g gulp`
- 3. install gulp packages
- `sudo npm install gulp gulp-clean gulp-connect gulp-watch gulp-minify-css gulp-concat gulp-myth gulp-jshint gulp-uglify gulp-imagemin gulp-livereload gulp-sourcemaps gulp-notify --save-dev`
+**資料來源**
+臺北市政府 消防局EOC 開放資料專區
 
-**License**
-http://ccjeng.mit-license.org
