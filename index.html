@@ -27,11 +27,11 @@
  <header>  
 	 <h2>北市災害資訊</h2>
 	 <h3>資料來源：<a href="https://tpe-doit.github.io/eoc_119/ghpage/" target="_blank">臺北市政府 消防局EOC 開放資料專區</a></h3>
-	 <p>地圖圖示：紅色＝處理中，綠色＝已處理</p>
+
  </header> 
   <div ng-controller="GetDisasterSummary" class="col-lg-12">
-
-   <div id="map"></div>
+  <span class="red">處理中:{{caseInProgress}}</span> <span class="green">已處理:{{caseDone}}</span> <span>完成率: {{caseRate}}%<span>
+  <div id="map"></div>
 
 
   <table class="table table-hover">
