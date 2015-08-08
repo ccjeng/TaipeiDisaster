@@ -29,19 +29,32 @@
 	 <h2>北市災害資訊</h2>
 
  </header> 
+  <div>
+      <img id="spinner" ng-src="./img/spinner.gif" style="display:none;">
+  </div>
+
   <div ng-controller="GetDisasterSummary" class="col-lg-12">
   <div>資料來源：<a href="https://tpe-doit.github.io/eoc_119/ghpage/" target="_blank">臺北市政府 消防局EOC 開放資料專區</a></div>
   
-
   <span class="red">處理中: {{caseInProgress}}</span> 
   <span class="green">已處理: {{caseDone}}</span> 
   <span id="ratio">完成率: {{caseRate}}%<span>
   
 
+  <section ng-init="tab=1">
+   <ul class="nav nav-pills">
+      <li ng-class="{ active: tab===1 }">
+        <a href="" ng-click="tab=1">災害地圖</a>
+      </li>
+      <li ng-class="{ active: tab===2 }">
+        <a href="" ng-click="tab=2">處理中案件</a>
+      </li>
+   </ul>
+  <div class="panel" ng-show="tab===1">
+   <div id="map"></div>
+  </div>
 
-  <div id="map"></div>
-
-
+  <div class="panel" ng-show="tab===2">
   <table class="table table-hover">
   		<thead>
         	<tr>
@@ -83,12 +96,14 @@
     	</tbody>
    </table>
   </div>
-
+  </section>
+ </div>
     
 
   <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular-resource.min.js"></script>
   <script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
   <script src="./js/all.min.js"></script>
