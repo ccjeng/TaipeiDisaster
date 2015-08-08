@@ -46,13 +46,13 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
         $scope.markers.push(marker);
         
     };
-    
+    /*
     $scope.openInfoWindow = function(e, selectedMarker){
         e.preventDefault();
         google.maps.event.trigger(selectedMarker, 'click');
-    };
+    };*/
 
-
+    /*
     $scope.total = {
       '路樹災情': 0,
       '民生、基礎設施災情': 0,
@@ -81,7 +81,7 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
       '水利設施災情': 0,
       '鐵路、高鐵及捷運災情': 0,
       '車輛及交通事故': 0
-    };
+    };*/
 
     $scope.listDistrict = [
         {name: ''},
@@ -99,8 +99,9 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
         {name: '文山區'}
     ];   
 
-    //$http.get('https://tcgbusfs.blob.core.windows.net/blobfs/GetDisasterSummary.json')
-    $http.get('./data/GetDisasterSummary.json')
+    $http.get('http://tonyq.org/kptaipei/GetDisasterSummary-20150808.php')
+    //$http.get('https://tcgbusfs.blob.core.windows.net/blobfs/GetDisasterSummary.json')    
+    //$http.get('./data/GetDisasterSummary.json')
     
     .success(function(data, status, headers, config) {
       //console.log('call json');
@@ -111,9 +112,10 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
       var caseDone = 0, caseInProgress = 0, caseRate = 0.00;
       for (i = 0; i < d.length; i++){
         createMarker(d[i]);
+      
         if (d[i].CaseComplete[0]==='true') {
             caseDone = caseDone + 1;
-
+  /*
             if (d[i].PName[0]==='路樹災情') {
               $scope.doneTotal['路樹災情'] += 1;
             }
@@ -146,11 +148,11 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
             }
             if (d[i].PName[0]==='車輛及交通事故') {
               $scope.doneTotal['車輛及交通事故'] += 1;
-            }
+            }*/
         }else {
             caseInProgress = caseInProgress + 1;
         }
-
+/*
         if (d[i].PName[0]==='路樹災情') {
           $scope.total['路樹災情'] += 1;
         }
@@ -184,7 +186,7 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
         if (d[i].PName[0]==='車輛及交通事故') {
           $scope.total['車輛及交通事故'] += 1;
         }
-
+    */
 
       }
 
