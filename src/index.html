@@ -35,13 +35,15 @@
   <div>更新時間：{{cases[0].CaseTime[0]}}</div>
   <span class="label label-danger">待處理: {{caseInProgress}}</span> 
   <span class="label label-success">已處理: {{caseDone}}</span> 
-  <span class="label label-default">完成率: {{caseRate}}%</span>
+  <span class="label label-default">總數: {{caseInProgress + caseDone}}</span>
   <span style="float:right;"><small>Develop by <a href="https://github.com/ccjeng/TaipeiDisaster" target="_blank">Andy Cheng</a>, License: <a href="http://creativecommons.tw/cc0" target="_blank">CC0</a></small></span>
   
   <div class="progress">
           <div class="progress-bar progress-bar-danger" style="width: {{ caseInProgress / (caseInProgress+caseDone) * 100 }}%">
+            {{ caseInProgress / (caseInProgress+caseDone) * 100 | number:2 }}%
           </div>
           <div class="progress-bar progress-bar-success" style="width: {{ caseDone / (caseInProgress+caseDone) * 100 }}%">
+            {{ caseDone / (caseInProgress+caseDone) * 100 | number:2 }}%
           </div>
   </div>
 
@@ -63,7 +65,9 @@
   </div>
 
   <div class="panel" ng-show="tab===2">
-	  <select id="sel" class="form-control selectWidth" ng-model="search.CaseLocationDistrict" ng-options="obj.name as obj.name for obj in listDistrict">    
+   <div class="form-group">
+	  <select class="form-control selectWidth" ng-model="district" ng-options="o for o in listDistrict">    
+        <option value="">-- 依區域搜尋 --</option>
 	  </select>
 	  <table class="table table-hover">
 	  		<thead>
@@ -95,7 +99,7 @@
 	        	</tr>
 	    	</thead>
 	    	<tbody>
-	    		<tr ng-repeat="case in cases | filter:{CaseComplete:'false', CaseLocationDistrict:search.CaseLocationDistrict} | orderBy:orderByField:reverseSort">
+	    		<tr ng-repeat="case in cases | filter:(!!district || undefined) && {CaseComplete:'false', CaseLocationDistrict:district} | orderBy:orderByField:reverseSort | limitTo:100">
 					<td>{{case.CaseTime[0]}}</td>
 					<td>{{case.Name[0]}}</td>  
 					<td>{{case.CaseDescription[0]}}</td>  
@@ -104,6 +108,7 @@
 		    	</tr>
 	    	</tbody>
 	  </table>
+    </div>
   </div>
  
 
@@ -206,8 +211,7 @@
 
   <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular-resource.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
   <script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>  
   <script src="./js/all.min.js"></script>
 

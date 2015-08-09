@@ -46,13 +46,7 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
         $scope.markers.push(marker);
         
     };
-    /*
-    $scope.openInfoWindow = function(e, selectedMarker){
-        e.preventDefault();
-        google.maps.event.trigger(selectedMarker, 'click');
-    };*/
 
-    
     $scope.total = {
       '路樹災情': 0,
       '民生、基礎設施災情': 0,
@@ -83,21 +77,7 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
       '車輛及交通事故': 0
     };
 
-    $scope.listDistrict = [
-        {name: ''},
-        {name: '中正區'},
-        {name: '大同區'},
-        {name: '中山區'},
-        {name: '松山區'},
-        {name: '大安區'},
-        {name: '萬華區'},
-        {name: '信義區'},
-        {name: '士林區'},
-        {name: '北投區'},
-        {name: '內湖區'},
-        {name: '南港區'},
-        {name: '文山區'}
-    ];   
+    $scope.listDistrict = ['中正區','大同區','中山區','松山區','大安區','萬華區','信義區','士林區','北投區','內湖區','南港區','文山區'];
 
     $http.get('http://tonyq.org/kptaipei/GetDisasterSummary-20150808.php')
     //$http.get('https://tcgbusfs.blob.core.windows.net/blobfs/GetDisasterSummary.json')    
