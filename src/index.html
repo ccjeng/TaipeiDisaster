@@ -29,9 +29,6 @@
  <header>  
 	 <h2>蘇迪勒颱風 - 台北市災害動態資訊</h2>
  </header> 
-  <div>
-      <img id="spinner" ng-src="./img/spinner.gif" style="display:none;">
-  </div>
 
   <div ng-controller="GetDisasterSummary" class="col-lg-12">
   <div>資料來源：<a href="https://tpe-doit.github.io/eoc_119/ghpage/" target="_blank">臺北市政府 消防局EOC 開放資料專區</a></div>
@@ -39,8 +36,7 @@
   <span class="label label-danger">待處理: {{caseInProgress}}</span> 
   <span class="label label-success">已處理: {{caseDone}}</span> 
   <span class="label label-default">完成率: {{caseRate}}%</span>
-  <span style="float:right;"><a href="http://beta.hackfoldr.org/TPEDisasterSummary/" target="_blank">災情回報系統</a></span>
-
+  <span style="float:right;"><small>Develop by <a href="https://github.com/ccjeng/TaipeiDisaster" target="_blank">Andy Cheng</a>, License: <a href="http://creativecommons.tw/cc0" target="_blank">CC0</a></small></span>
   
   <div class="progress">
           <div class="progress-bar progress-bar-danger" style="width: {{ caseInProgress / (caseInProgress+caseDone) * 100 }}%">
@@ -58,7 +54,7 @@
         <a href="" ng-click="tab=2">待處理案件</a>
       </li>
       <li ng-class="{ active: tab===3 }">
-        <a href="" ng-click="tab=3">相關連結</a>
+        <a href="" ng-click="tab=3">災情統計</a>
       </li>
    </ul>
 
@@ -112,18 +108,101 @@
  
 
   <div class="panel" ng-show="tab===3">
-  	<ul class="list-group">
+
+      <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>災情種類</th>               
+                    <th>待處理</th>
+                    <th>已處理</th>
+                    <th>總數</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>路樹災情</td>
+                    <td>{{total['路樹災情']-doneTotal['路樹災情']}}</td>
+                    <td>{{doneTotal['路樹災情']}}</td>
+                    <td>{{total['路樹災情']}} ({{total['路樹災情']/(caseInProgress+caseDone)*100 | number:2}}%)</td>
+                </tr>
+                <tr>
+                    <td>民生、基礎設施災情</td>
+                    <td>{{total['民生、基礎設施災情']-doneTotal['民生、基礎設施災情']}}</td>
+                    <td>{{doneTotal['民生、基礎設施災情']}}</td>
+                    <td>{{total['民生、基礎設施災情']}} ({{total['民生、基礎設施災情']/(caseInProgress+caseDone)*100 | number:2}}%)</td>
+                </tr>
+                <tr>
+                    <td>建物毀損</td>
+                    <td>{{total['建物毀損']-doneTotal['建物毀損']}}</td>
+                    <td>{{doneTotal['建物毀損']}}</td>
+                    <td>{{total['建物毀損']}} ({{total['建物毀損']/(caseInProgress+caseDone)*100 | number:2}}%)</td>
+                </tr> 
+                 <tr>
+                    <td>廣告招牌災情</td>
+                    <td>{{total['廣告招牌災情']-doneTotal['廣告招牌災情']}}</td>
+                    <td>{{doneTotal['廣告招牌災情']}}</td>
+                    <td>{{total['廣告招牌災情']}} ({{total['廣告招牌災情']/(caseInProgress+caseDone)*100 | number:2}}%)</td>
+                </tr>
+                <tr>
+                    <td>積淹水災情</td>
+                    <td>{{total['積淹水災情']-doneTotal['積淹水災情']}}</td>
+                    <td>{{doneTotal['積淹水災情']}}</td>
+                    <td>{{total['積淹水災情']}} ({{total['積淹水災情']/(caseInProgress+caseDone)*100 | number:2}}%)</td>
+                </tr>  
+                <tr>
+                    <td>其他災情</td>
+                    <td>{{total['其他災情']-doneTotal['其他災情']}}</td>
+                    <td>{{doneTotal['其他災情']}}</td>
+                    <td>{{total['其他災情']}} ({{total['其他災情']/(caseInProgress+caseDone)*100 | number:2}}%)</td>
+                </tr> 
+                <tr>
+                    <td>土石災情</td>
+                    <td>{{total['土石災情']-doneTotal['土石災情']}}</td>
+                    <td>{{doneTotal['土石災情']}}</td>
+                    <td>{{total['土石災情']}} ({{total['土石災情']/(caseInProgress+caseDone)*100 | number:2}}%)</td>
+                </tr>  
+                <tr>
+                    <td>道路、隧道災情</td>
+                    <td>{{total['道路、隧道災情']-doneTotal['道路、隧道災情']}}</td>
+                    <td>{{doneTotal['道路、隧道災情']}}</td>
+                    <td>{{total['道路、隧道災情']}} ({{total['道路、隧道災情']/(caseInProgress+caseDone)*100 | number:2}}%)</td>
+                </tr> 
+                <tr>
+                    <td>水利設施災情</td>
+                    <td>{{total['水利設施災情']-doneTotal['水利設施災情']}}</td>
+                    <td>{{doneTotal['水利設施災情']}}</td>
+                    <td>{{total['水利設施災情']}} ({{total['水利設施災情']/(caseInProgress+caseDone)*100 | number:2}}%)</td>
+                </tr> 
+                <tr>
+                    <td>鐵路、高鐵及捷運災情</td>
+                    <td>{{total['鐵路、高鐵及捷運災情']-doneTotal['鐵路、高鐵及捷運災情']}}</td>
+                    <td>{{doneTotal['鐵路、高鐵及捷運災情']}}</td>
+                    <td>{{total['鐵路、高鐵及捷運災情']}} ({{total['鐵路、高鐵及捷運災情']/(caseInProgress+caseDone)*100 | number:2}}%)</td>
+                </tr>                                                                                     
+                <tr>
+                    <td>車輛及交通事故</td>
+                    <td>{{total['車輛及交通事故']-doneTotal['車輛及交通事故']}}</td>
+                    <td>{{doneTotal['車輛及交通事故']}}</td>
+                    <td>{{total['車輛及交通事故']}} ({{total['車輛及交通事故']/(caseInProgress+caseDone)*100 | number:2}}%)</td>
+                </tr> 
+                                                          
+            </tbody>
+      </table>
+
+<!--  	<ul class="list-group">        
 	  <li class="list-group-item"><a href="http://www.taipei.gov.tw/MP_100064.html" target="_blank">台北市防災救災專區</a></li>
 	  <li class="list-group-item"><a href="http://eocdss.ncdr.nat.gov.tw/ncdrwebv2/" target="_blank">國家災害防救科技中心 災害情資網</a></li>
 	  <li class="list-group-item"><a href="https://www.google.org/crisismap/taiwan" target="_blank">Google臺灣防災地圖</a></li>
 	  <li class="list-group-item"><a href="http://www.google.org/publicalerts/?hl=zh&gl=TW" target="_blank">Google災害示警</a></li>
 	  <li class="list-group-item"><a href="http://nds.taipower.com.tw/ndsWeb/ndft112_select1.aspx" target="_blank">台電停電資訊</a></li>
-	</ul>
+	</ul>-->
   </div>
   </section>
     </div>
  </div>
     
+
+
 
   <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>

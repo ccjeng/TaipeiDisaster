@@ -52,13 +52,13 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
         google.maps.event.trigger(selectedMarker, 'click');
     };*/
 
-    /*
+    
     $scope.total = {
       '路樹災情': 0,
       '民生、基礎設施災情': 0,
       '建物毀損': 0,
       '廣告招牌災情': 0,
-      '淹積水災情': 0,
+      '積淹水災情': 0,
       '其他災情': 0,
       '環境污染': 0,
       '土石災情': 0,
@@ -73,7 +73,7 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
       '民生、基礎設施災情': 0,
       '建物毀損': 0,
       '廣告招牌災情': 0,
-      '淹積水災情': 0,
+      '積淹水災情': 0,
       '其他災情': 0,
       '環境污染': 0,
       '土石災情': 0,
@@ -81,7 +81,7 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
       '水利設施災情': 0,
       '鐵路、高鐵及捷運災情': 0,
       '車輛及交通事故': 0
-    };*/
+    };
 
     $scope.listDistrict = [
         {name: ''},
@@ -115,7 +115,7 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
       
         if (d[i].CaseComplete[0]==='true') {
             caseDone = caseDone + 1;
-  /*
+  
             if (d[i].PName[0]==='路樹災情') {
               $scope.doneTotal['路樹災情'] += 1;
             }
@@ -128,8 +128,8 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
             if (d[i].PName[0]==='廣告招牌災情') {
               $scope.doneTotal['廣告招牌災情'] += 1;
             }
-            if (d[i].PName[0]==='淹積水災情') {
-              $scope.doneTotal['淹積水災情'] += 1;
+            if (d[i].PName[0]==='積淹水災情') {
+              $scope.doneTotal['積淹水災情'] += 1;
             }
             if (d[i].PName[0]==='其他災情') {
               $scope.doneTotal['其他災情'] += 1;
@@ -140,7 +140,7 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
             if (d[i].PName[0]==='道路、隧道災情') {
               $scope.doneTotal['道路、隧道災情'] += 1;
             }
-            if (d[i].PName[0]==='水利設施災情') {
+            if (d[i].PName[0]==='水利設施災害') {
               $scope.doneTotal['水利設施災情'] += 1;
             }
             if (d[i].PName[0]==='鐵路、高鐵及捷運災情') {
@@ -148,11 +148,11 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
             }
             if (d[i].PName[0]==='車輛及交通事故') {
               $scope.doneTotal['車輛及交通事故'] += 1;
-            }*/
+            }
         }else {
             caseInProgress = caseInProgress + 1;
         }
-/*
+
         if (d[i].PName[0]==='路樹災情') {
           $scope.total['路樹災情'] += 1;
         }
@@ -165,8 +165,8 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
         if (d[i].PName[0]==='廣告招牌災情') {
           $scope.total['廣告招牌災情'] += 1;
         }
-        if (d[i].PName[0]==='淹積水災情') {
-          $scope.total['淹積水災情'] += 1;
+        if (d[i].PName[0]==='積淹水災情') {
+          $scope.total['積淹水災情'] += 1;
         }
         if (d[i].PName[0]==='其他災情') {
           $scope.total['其他災情'] += 1;
@@ -177,7 +177,7 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
         if (d[i].PName[0]==='道路、隧道災情') {
           $scope.total['道路、隧道災情'] += 1;
         }
-        if (d[i].PName[0]==='水利設施災情') {
+        if (d[i].PName[0]==='水利設施災害') {
           $scope.total['水利設施災情'] += 1;
         }
         if (d[i].PName[0]==='鐵路、高鐵及捷運災情') {
@@ -186,7 +186,7 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
         if (d[i].PName[0]==='車輛及交通事故') {
           $scope.total['車輛及交通事故'] += 1;
         }
-    */
+    
 
       }
 
