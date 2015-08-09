@@ -63,7 +63,7 @@
   </div>
 
   <div class="panel" ng-show="tab===2">
-	  <select id="sel" class="form-control selectWidth" ng-model="search.CaseLocationDistrict" ng-options="obj.name as obj.name for obj in listDistrict">    
+	  <select id="sel" class="form-control selectWidth" ng-model="district" ng-options="obj for obj in listDistrict">    <option value="">-- 依區域搜尋 --</option>
 	  </select>
 	  <table class="table table-hover">
 	  		<thead>
@@ -95,7 +95,7 @@
 	        	</tr>
 	    	</thead>
 	    	<tbody>
-	    		<tr ng-repeat="case in cases | filter:{CaseComplete:'false', CaseLocationDistrict:search.CaseLocationDistrict} | orderBy:orderByField:reverseSort">
+	    		<tr ng-repeat="case in cases | filter:{CaseComplete:'false', CaseLocationDistrict:district} | orderBy:orderByField:reverseSort | limitTo:100">
 					<td>{{case.CaseTime[0]}}</td>
 					<td>{{case.Name[0]}}</td>  
 					<td>{{case.CaseDescription[0]}}</td>  
