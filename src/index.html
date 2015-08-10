@@ -9,7 +9,7 @@
     
     <link rel="stylesheet" href="http://meyerweb.com/eric/tools/css/reset/reset.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">-->
     <link rel="stylesheet" href="https://cdn.rawgit.com/jtblin/angular-chart.js/master/dist/angular-chart.css">
     <link rel='stylesheet' href="./css/all.min.css">
 
@@ -32,18 +32,21 @@
 
   <div ng-controller="GetDisasterSummary" class="col-lg-12">
   <div>資料來源：<a href="https://tpe-doit.github.io/eoc_119/ghpage/" target="_blank">臺北市政府 消防局EOC 開放資料專區</a></div>
-  <div>更新時間：{{cases[0].CaseTime[0]}}</div>
-  <span class="label label-danger">待處理: {{caseInProgress}}</span> 
-  <span class="label label-success">已處理: {{caseDone}}</span> 
-  <span class="label label-default">總數: {{caseInProgress + caseDone}}</span>
+  <div>
+  <span>更新時間：{{cases[0].CaseTime[0]}}</span>
   <span style="float:right;"><small>Develop by <a href="https://github.com/ccjeng/TaipeiDisaster" target="_blank">Andy Cheng</a>, License: <a href="http://creativecommons.tw/cc0" target="_blank">CC0</a></small></span>
+  </div>
+
+  <span class="label label-success">已處理: {{caseDone}}</span> 
+  <span class="label label-danger">待處理: {{caseInProgress}}</span> 
+  <span class="label label-default">總件數: {{caseInProgress + caseDone}}</span>
+  
   
   <div class="progress">
-          <div class="progress-bar progress-bar-danger" style="width: {{ caseInProgress / (caseInProgress+caseDone) * 100 }}%">
-            {{ caseInProgress / (caseInProgress+caseDone) * 100 | number:2 }}%
-          </div>
           <div class="progress-bar progress-bar-success" style="width: {{ caseDone / (caseInProgress+caseDone) * 100 }}%">
             {{ caseDone / (caseInProgress+caseDone) * 100 | number:2 }}%
+          </div>
+          <div class="progress-bar progress-bar-danger" style="width: {{ caseInProgress / (caseInProgress+caseDone) * 100 }}%">            
           </div>
   </div>
 
@@ -53,7 +56,7 @@
         <a href="" ng-click="tab=1">災害地圖</a>
       </li>
       <li ng-class="{ active: tab===2 }">
-        <a href="" ng-click="tab=2">待處理案件</a>
+        <a href="" ng-click="tab=2">全部案件查詢</a>
       </li>
       <li ng-class="{ active: tab===3 }">
         <a href="" ng-click="tab=3">災情統計</a>
@@ -66,45 +69,31 @@
 
   <div class="panel" ng-show="tab===2">
    <div class="form-group">
-	  <select class="form-control selectWidth" ng-model="district" ng-options="o for o in listDistrict">    
+      <input type="text" id="fullURL" ng-model="search" class="form-control" value="" placeholder="輸入關鍵字查詢（因資料量龐大，僅顯示前100筆資料）"/>          
+<!--	  <select class="form-control selectWidth" ng-model="district" ng-options="o for o in listDistrict">    
         <option value="">-- 依區域搜尋 --</option>
-	  </select>
+	  </select>-->
 	  <table class="table table-hover">
 	  		<thead>
 	        	<tr>
-	            	<th><a href="#" ng-click="orderByField='CaseTime'; reverseSort = !reverseSort">
-	          		發生時間<span ng-show="orderByField == 'CaseTime'"><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></span>
-	          		</a>
-	          		</th>
-	            	
-	            	<th><a href="#" ng-click="orderByField='Name'; reverseSort = !reverseSort">
-	            	災情種類<span ng-show="orderByField == 'Name'"><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></span>
-	          		</a>
-	          		</th>
-
-	            	<th><a href="#" ng-click="orderByField='CaseDescription'; reverseSort = !reverseSort">
-	            	災情描述<span ng-show="orderByField == 'CaseDescription'"><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></span>
-	          		</a>
-	            	</th>
-
-	            	<th><a href="#" ng-click="orderByField='CaseLocationDistrict'; reverseSort = !reverseSort">
-	            	行政區<span ng-show="orderByField == 'CaseLocationDistrict'"><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></span>
-	          		</a>
-	          		</th>
-
-	            	<th><a href="#" ng-click="orderByField='CaseLocationDescription'; reverseSort = !reverseSort">
-	            	災情地點<span ng-show="orderByField == 'CaseLocationDescription'"><span ng-show="!reverseSort" class="fa fa-sort-asc"></span><span ng-show="reverseSort" class="fa fa-sort-desc"></span></span>
-	          		</a>
-	            	</th>
+	            	<th>發生時間</th>	            
+	            	<th>災情種類</th>
+	            	<th>災情描述</th>
+	            	<th>行政區</th>
+	            	<th>災情地點</th>
+                    <th>案件狀態</th>
 	        	</tr>
 	    	</thead>
 	    	<tbody>
-	    		<tr ng-repeat="case in cases | filter:(!!district || undefined) && {CaseComplete:'false', CaseLocationDistrict:district} | orderBy:orderByField:reverseSort | limitTo:100">
+	    		<tr ng-repeat="case in cases | filter:search | limitTo:100">
+                <!--<tr ng-repeat="case in cases | filter:(!!district || undefined) && {CaseComplete:'false', CaseLocationDistrict:district} | orderBy:orderByField:reverseSort | limitTo:100">-->
 					<td>{{case.CaseTime[0]}}</td>
 					<td>{{case.Name[0]}}</td>  
 					<td>{{case.CaseDescription[0]}}</td>  
 					<td>{{case.CaseLocationDistrict[0]}}</td>
-					<td>{{case.CaseLocationDescription[0]}}</td>	
+					<td>{{case.CaseLocationDescription[0]}}</td>
+                    <td><div ng-if="case.CaseComplete[0] == 'false'">待處理</div><div ng-if="case.CaseComplete[0] == 'true'">已處理</div>
+                    </td>                    	
 		    	</tr>
 	    	</tbody>
 	  </table>
