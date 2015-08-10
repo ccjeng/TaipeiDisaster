@@ -36,7 +36,7 @@
   <span>更新時間：{{cases[0].CaseTime[0]}}</span>
   <span style="float:right;"><small>Develop by <a href="https://github.com/ccjeng/TaipeiDisaster" target="_blank">Andy Cheng</a>, License: <a href="http://creativecommons.tw/cc0" target="_blank">CC0</a></small></span>
   </div>
-  
+
   <span class="label label-success">已處理: {{caseDone}}</span> 
   <span class="label label-danger">待處理: {{caseInProgress}}</span> 
   <span class="label label-default">總件數: {{caseInProgress + caseDone}}</span>
@@ -114,7 +114,7 @@
 					<td>{{case.CaseDescription[0]}}</td>  
 					<td>{{case.CaseLocationDistrict[0]}}</td>
 					<td>{{case.CaseLocationDescription[0]}}</td>
-                    <td><div ng-if="case.CaseComplete[0] == 'false'">待處理<div>
+                    <td><div ng-if="case.CaseComplete[0] == 'false'">待處理</div><div ng-if="case.CaseComplete[0] == 'true'">已處理</div>
                     </td>                    	
 		    	</tr>
 	    	</tbody>
