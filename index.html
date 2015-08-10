@@ -32,11 +32,15 @@
 
   <div ng-controller="GetDisasterSummary" class="col-lg-12">
   <div>資料來源：<a href="https://tpe-doit.github.io/eoc_119/ghpage/" target="_blank">臺北市政府 消防局EOC 開放資料專區</a></div>
-  <div>更新時間：{{cases[0].CaseTime[0]}}</div>
+  <div>
+  <span>更新時間：{{cases[0].CaseTime[0]}}</span>
+  <span style="float:right;"><small>Develop by <a href="https://github.com/ccjeng/TaipeiDisaster" target="_blank">Andy Cheng</a>, License: <a href="http://creativecommons.tw/cc0" target="_blank">CC0</a></small></span>
+  </div>
+  
   <span class="label label-success">已處理: {{caseDone}}</span> 
   <span class="label label-danger">待處理: {{caseInProgress}}</span> 
   <span class="label label-default">總件數: {{caseInProgress + caseDone}}</span>
-  <span style="float:right;"><small>Develop by <a href="https://github.com/ccjeng/TaipeiDisaster" target="_blank">Andy Cheng</a>, License: <a href="http://creativecommons.tw/cc0" target="_blank">CC0</a></small></span>
+  
   
   <div class="progress">
           <div class="progress-bar progress-bar-success" style="width: {{ caseDone / (caseInProgress+caseDone) * 100 }}%">
