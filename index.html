@@ -31,9 +31,9 @@
  </header> 
 
   <div ng-controller="GetDisasterSummary" class="col-lg-12">
-  <div>資料來源：<a href="https://tpe-doit.github.io/eoc_119/ghpage/" target="_blank">臺北市政府 消防局EOC 開放資料專區</a></div>
   <div>
-  <span>更新時間：{{cases[0].CaseTime[0]}}</span>
+  <span>資料來源：<a href="https://tpe-doit.github.io/eoc_119/ghpage/" target="_blank">臺北市政府 消防局EOC 開放資料專區</a></span>  
+  <!--<span>更新時間：{{cases[0].CaseTime[0]}}</span>-->
   <span style="float:right;"><small>Develop by <a href="https://github.com/ccjeng/TaipeiDisaster" target="_blank">Andy Cheng</a>, License: <a href="http://creativecommons.tw/cc0" target="_blank">CC0</a></small></span>
   </div>
 
@@ -53,21 +53,19 @@
   <section ng-init="tab=1">
    <ul class="nav nav-pills">
       <li ng-class="{ active: tab===1 }">
-        <a href="" ng-click="tab=1">災害地圖</a>
+        <a href="" ng-click="tab=1">全部案件查詢</a>
       </li>
       <li ng-class="{ active: tab===2 }">
-        <a href="" ng-click="tab=2">全部案件查詢</a>
+        <a href="" ng-click="tab=2">災害地圖</a>
       </li>
       <li ng-class="{ active: tab===3 }">
         <a href="" ng-click="tab=3">災情統計</a>
       </li>
    </ul>
 
-  <div class="panel" ng-show="tab===1">
-   <div id="map"></div>
-  </div>
 
-  <div class="panel" ng-show="tab===2">
+
+  <div class="panel" ng-show="tab===1">
    <div class="form-group">
       <input type="text" id="fullURL" ng-model="search" class="form-control" value="" placeholder="輸入關鍵字查詢（因資料量龐大，僅顯示前100筆資料）"/>          
 <!--	  <select class="form-control selectWidth" ng-model="district" ng-options="o for o in listDistrict">    
@@ -100,6 +98,9 @@
     </div>
   </div>
  
+  <div class="panel" ng-show="tab===2">
+   <div id="map"></div>
+  </div>
 
   <div class="panel" ng-show="tab===3">
 
