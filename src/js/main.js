@@ -10,7 +10,7 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
 
 
     var mapOptions = {
-        zoom: 13,
+        zoom: 16,
         center: new google.maps.LatLng(25.0504416, 121.5414189),
         mapTypeId: google.maps.MapTypeId.TERRAIN
     };
@@ -79,8 +79,8 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
 
     $scope.listDistrict = ['中正區','大同區','中山區','松山區','大安區','萬華區','信義區','士林區','北投區','內湖區','南港區','文山區'];
 
-    $http.get('http://tonyq.org/kptaipei/GetDisasterSummary-20150808.php')
-    //$http.get('https://tcgbusfs.blob.core.windows.net/blobfs/GetDisasterSummary.json')    
+    //$http.get('http://tonyq.org/kptaipei/GetDisasterSummary-20150808.php')
+    $http.get('https://tcgbusfs.blob.core.windows.net/blobfs/GetDisasterSummary.json')    
     //$http.get('./data/GetDisasterSummary.json')
     
     .success(function(data, status, headers, config) {
