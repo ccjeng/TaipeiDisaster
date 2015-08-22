@@ -79,11 +79,10 @@
 	        	</tr>
 	    	</thead>
 	    	<tbody>
-	    		<tr ng-repeat="case in cases | filter:search | limitTo:100">
+	    		<tr ng-repeat="case in cases | filter:search | limitTo:100" ng-click="itemClicked($event, case)">
 					<td>{{case.CaseTime}}</td>
 					<td>{{case.Name}}</td>  
                     <td>{{case.CaseDescription}}</td>
-					<!--<td><a href="#" ng-click="openInfoWindow($event, case)">{{case.CaseDescription}}</a></td>  -->
 					<td>{{case.CaseLocationDistrict}}</td>
 					<td>{{case.CaseLocationDescription}}</td>
                     <td><div ng-if="case.CaseComplete == 'false'">待處理</div><div ng-if="case.CaseComplete == 'true'">已處理</div>
