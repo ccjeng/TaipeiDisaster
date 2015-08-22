@@ -8,34 +8,88 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
     $scope.orderByField = 'CaseTime';
     $scope.reverseSort = true;
 
-/*
+
     var mapOptions = {
-        zoom: 16,
-        center: new google.maps.LatLng(25.0504416, 121.5414189),
-        mapTypeId: google.maps.MapTypeId.TERRAIN
+        zoom: 13,
+        center: new google.maps.LatLng(25.037525,121.563782),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
     $scope.markers = [];
 
     var infoWindow = new google.maps.InfoWindow();
-
-    var createMarker = function (info){
+/*
+    var draw_heatmap = function(info) {
+        var heatMapData = new google.maps.MVCArray(info);
+        var heatmap = new google.maps.visualization.HeatmapLayer({ data: heatMapData });
+        heatmap.setMap($scope.map);
+    };
+*/
+    var createMarker = function (data){
       
+        var pinColor = (data.CaseComplete === "true") ? "80e516" : "FE7569";
+        var pinImage; 
+        var word;
+
+        switch(data.PName) {
+          case '路樹災情':
+              word='樹';
+              break;
+          case '民生、基礎設施災情':
+              word='民';
+              break;
+          case '建物毀損':
+              word='建';
+              break;
+          case '廣告招牌災情':
+              word='廣';
+              break;
+          case '積淹水災情':
+              word='水';
+              break;
+          case '其他災情':
+              word='其';
+              break;
+          case '環境污染':
+              word='污';
+              break;
+          case '土石災情':
+              word='土';
+              break;
+          case '道路、隧道災情':
+              word='路';
+              break;
+          case '鐵路、高鐵及捷運災情':
+              word='運';
+              break;  
+          case '車輛及交通事故':
+              word='車';
+              break;                                   
+          default:
+              word='危';              
+        };
+
+        if(data.CaseComplete === "true"){
+            word = "復";
+            pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_spin&chld=0.7|0|"+ pinColor +"|15|b|"+word);
+        } else {
+            pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_spin&chld=0.7|20|"+ pinColor +"|15|b|"+word);
+        }
+
         var marker = new google.maps.Marker({
             map: $scope.map,
-            position: new google.maps.LatLng(info.Wgs84Y, info.Wgs84X),
-            title: info.PName + ' - '+ info.Name,
+            position: new google.maps.LatLng(data.Wgs84Y, data.Wgs84X),
+            title: data.PName + ' - '+ data.Name,
+            pid: data['-diffgr:id'].toLowerCase(),
+            icon: pinImage,
+            pinColor: pinColor
         });
 
-        marker.content = '<div class="infoWindowContent">發生時間：' + (isEmpty(d[i].CaseTime) ? '' : info.CaseTime)
-          + '</br>災情地點：' + info.CaseLocationDescription
-          + '</br>災情描述：' + info.CaseDescription 
+        marker.content = '<div class="infoWindowContent">發生時間：' + data.CaseTime
+          + '</br>災情地點：' + data.CaseLocationDescription
+          + '</br>災情描述：' + data.CaseDescription 
           + '</div>';
-        
-        if (info.CaseComplete==='true') {
-          marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
-        }
 
         google.maps.event.addListener(marker, 'click', function(){
             infoWindow.setContent('<h3>' + marker.title + '</h3>' + marker.content );
@@ -45,7 +99,13 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
         $scope.markers.push(marker);
         
     };
-*/
+
+    var cleanMarker = function() {
+        var markers = $scope.markers;
+        for (var i = 0; i < markers.length; i++) { markers[i].setMap(null); }
+        $scope.markers = [];
+    };
+
     $scope.total = {
       '路樹災情': 0,
       '民生、基礎設施災情': 0,
@@ -83,16 +143,24 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
     //$http.get('./data/GetDisasterSummary.json')
     
     .success(function(data, status, headers, config) {
-      //d = data.DataSet['diffgr:diffgram'].NewDataSet['CASE_SUMMARY'];
       d = data.DataSet['diffgr:diffgram'].NewDataSet['CASE_SUMMARY'];
 
       $scope.dataTime = data.DataSet['-date'];
       $scope.cases = d;
 
+/*
+    var locationCoords = [];
+
+    d.map(function(p){
+      locationCoords.push( new google.maps.LatLng(p.Wgs84Y, p.Wgs84X) );
+    });
+
+    draw_heatmap(locationCoords);
+*/
 
       var caseDone = 0, caseInProgress = 0, caseRate = 0.00;
       for (i = 0; i < d.length; i++){
-        //createMarker(d[i]);
+        createMarker(d[i]);
       
         if (d[i].CaseComplete==='true') {
             caseDone = caseDone + 1;
@@ -171,12 +239,13 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
 
       }
 
-      caseRate = 100 * caseDone / (caseDone + caseInProgress)
+        caseRate = 100 * caseDone / (caseDone + caseInProgress);
 
-      $scope.caseDone = caseDone;
-      $scope.caseInProgress = caseInProgress;
-      $scope.caseRate = caseRate.toFixed(2);
+        $scope.caseDone = caseDone;
+        $scope.caseInProgress = caseInProgress;
+        $scope.caseRate = caseRate.toFixed(2);
 
+         var mc = new MarkerClusterer($scope.map, $scope.markers, {gridSize: 80, maxZoom: 16});
       })
 
 
@@ -186,106 +255,18 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
     });
 
     //http://jsfiddle.net/pc7Uu/854/
-    /*
-    $scope.openInfoWindow = function(e, selectedMarker){
-        //e.preventDefault();
+    $scope.itemClicked = function (e, selectedMarker) {
+        //$scope.selectedIndex = $index;
+        e.preventDefault();
         google.maps.event.trigger(selectedMarker, 'click');
-        console.log(selectedMarker);
-    }*/
+        //console.log(selectedMarker);
+    };
+
 
 }]);
 
 
-
-initialize();
-d3Map();
-
-
 })();
-
-var map;
-var markers = [];
-
-function initialize() {
-  var mapOptions = {
-        zoom: 14,
-        center: new google.maps.LatLng(25.0504416, 121.5414189),
-        mapTypeId: google.maps.MapTypeId.TERRAIN
-    };
-  map = new google.maps.Map( document.getElementById('map') , mapOptions);
-}
-
-function d3Map() {
-    d3.json('https://tcgbusfs.blob.core.windows.net/blobfs/GetDisasterSummary.json', function(data){
-    var result = data.DataSet['diffgr:diffgram'].NewDataSet['CASE_SUMMARY'];
-    var locationCoords = [];
-
-    result.map(function(d){
-      locationCoords.push( new google.maps.LatLng(d.Wgs84Y, d.Wgs84X) );
-    });
-
-    draw_heatmap(locationCoords);
-
-    $('input[name="isShow"]').change(function(){
-    var val = $(this).val();
-    if( val === '0' ){
-      clean_markers();
-    }else{
-      add_markers(locationCoords, result);
-    }
-  });
-
-  });
-}
-
-function add_markers(points, result) {
-  var infoWindow = new google.maps.InfoWindow();
-
-  var createMarker = function (info){
-      
-        var marker = new google.maps.Marker({
-            map: map,
-            position: new google.maps.LatLng(info.Wgs84Y, info.Wgs84X),
-            title: info.PName + ' - '+ info.Name,
-        });
-
-        marker.content = '<div class="infoWindowContent">發生時間：' + (isEmpty(d[i].CaseTime) ? '' : info.CaseTime)
-          + '</br>災情地點：' + info.CaseLocationDescription
-          + '</br>災情描述：' + info.CaseDescription 
-          + '</div>';
-        
-        if (info.CaseComplete==='true') {
-          marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
-        }
-
-        google.maps.event.addListener(marker, 'click', function(){
-            infoWindow.setContent('<h3>' + marker.title + '</h3>' + marker.content );
-            infoWindow.open(map, marker);
-        });
-        
-        markers.push(marker);
-        
-    };
-
-  for (var i = 0; i < result.length; i++) {
-    createMarker(result[i]);
-  }
-
-
-
-}
-
-function clean_markers() {
-  for (var i = 0; i < markers.length; i++) { markers[i].setMap(null); }
-  markers = [];
-}
-
-
-function draw_heatmap(coords) {
-  var pointArray = new google.maps.MVCArray(coords);
-  var heatmap = new google.maps.visualization.HeatmapLayer({ data: pointArray });
-  heatmap.setMap(map);
-}
 
 
 function isEmpty(str) {
