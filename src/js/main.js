@@ -8,7 +8,7 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
     $scope.orderByField = 'CaseTime';
     $scope.reverseSort = true;
 
-
+/*
     var mapOptions = {
         zoom: 16,
         center: new google.maps.LatLng(25.0504416, 121.5414189),
@@ -28,7 +28,6 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
             title: info.PName + ' - '+ info.Name,
         });
 
-
         marker.content = '<div class="infoWindowContent">發生時間：' + (isEmpty(d[i].CaseTime) ? '' : info.CaseTime)
           + '</br>災情地點：' + info.CaseLocationDescription
           + '</br>災情描述：' + info.CaseDescription 
@@ -46,7 +45,7 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
         $scope.markers.push(marker);
         
     };
-
+*/
     $scope.total = {
       '路樹災情': 0,
       '民生、基礎設施災情': 0,
@@ -77,24 +76,23 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
       '車輛及交通事故': 0
     };
 
-    $scope.listDistrict = ['中正區','大同區','中山區','松山區','大安區','萬華區','信義區','士林區','北投區','內湖區','南港區','文山區'];
+    //$scope.listDistrict = ['中正區','大同區','中山區','松山區','大安區','萬華區','信義區','士林區','北投區','內湖區','南港區','文山區'];
 
     //$http.get('http://tonyq.org/kptaipei/GetDisasterSummary-20150808.php')
     $http.get('https://tcgbusfs.blob.core.windows.net/blobfs/GetDisasterSummary.json')    
     //$http.get('./data/GetDisasterSummary.json')
     
     .success(function(data, status, headers, config) {
-      //console.log('call json');
-
       //d = data.DataSet['diffgr:diffgram'].NewDataSet['CASE_SUMMARY'];
       d = data.DataSet['diffgr:diffgram'].NewDataSet['CASE_SUMMARY'];
-      //console.log(d);
 
+      $scope.dataTime = data.DataSet['-date'];
       $scope.cases = d;
+
 
       var caseDone = 0, caseInProgress = 0, caseRate = 0.00;
       for (i = 0; i < d.length; i++){
-        createMarker(d[i]);
+        //createMarker(d[i]);
       
         if (d[i].CaseComplete==='true') {
             caseDone = caseDone + 1;
@@ -188,16 +186,107 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
     });
 
     //http://jsfiddle.net/pc7Uu/854/
+    /*
     $scope.openInfoWindow = function(e, selectedMarker){
         //e.preventDefault();
         google.maps.event.trigger(selectedMarker, 'click');
         console.log(selectedMarker);
-    }
+    }*/
 
 }]);
 
 
+
+initialize();
+d3Map();
+
+
 })();
+
+var map;
+var markers = [];
+
+function initialize() {
+  var mapOptions = {
+        zoom: 14,
+        center: new google.maps.LatLng(25.0504416, 121.5414189),
+        mapTypeId: google.maps.MapTypeId.TERRAIN
+    };
+  map = new google.maps.Map( document.getElementById('map') , mapOptions);
+}
+
+function d3Map() {
+    d3.json('https://tcgbusfs.blob.core.windows.net/blobfs/GetDisasterSummary.json', function(data){
+    var result = data.DataSet['diffgr:diffgram'].NewDataSet['CASE_SUMMARY'];
+    var locationCoords = [];
+
+    result.map(function(d){
+      locationCoords.push( new google.maps.LatLng(d.Wgs84Y, d.Wgs84X) );
+    });
+
+    draw_heatmap(locationCoords);
+
+    $('input[name="isShow"]').change(function(){
+    var val = $(this).val();
+    if( val === '0' ){
+      clean_markers();
+    }else{
+      add_markers(locationCoords, result);
+    }
+  });
+
+  });
+}
+
+function add_markers(points, result) {
+  var infoWindow = new google.maps.InfoWindow();
+
+  var createMarker = function (info){
+      
+        var marker = new google.maps.Marker({
+            map: map,
+            position: new google.maps.LatLng(info.Wgs84Y, info.Wgs84X),
+            title: info.PName + ' - '+ info.Name,
+        });
+
+        marker.content = '<div class="infoWindowContent">發生時間：' + (isEmpty(d[i].CaseTime) ? '' : info.CaseTime)
+          + '</br>災情地點：' + info.CaseLocationDescription
+          + '</br>災情描述：' + info.CaseDescription 
+          + '</div>';
+        
+        if (info.CaseComplete==='true') {
+          marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+        }
+
+        google.maps.event.addListener(marker, 'click', function(){
+            infoWindow.setContent('<h3>' + marker.title + '</h3>' + marker.content );
+            infoWindow.open(map, marker);
+        });
+        
+        markers.push(marker);
+        
+    };
+
+  for (var i = 0; i < result.length; i++) {
+    createMarker(result[i]);
+  }
+
+
+
+}
+
+function clean_markers() {
+  for (var i = 0; i < markers.length; i++) { markers[i].setMap(null); }
+  markers = [];
+}
+
+
+function draw_heatmap(coords) {
+  var pointArray = new google.maps.MVCArray(coords);
+  var heatmap = new google.maps.visualization.HeatmapLayer({ data: pointArray });
+  heatmap.setMap(map);
+}
+
 
 function isEmpty(str) {
     return ((typeof str == 'undefined')|| !str || 0 === str.length);
