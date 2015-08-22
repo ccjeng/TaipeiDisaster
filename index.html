@@ -67,9 +67,6 @@
   <div class="panel" ng-show="tab===1">
    <div class="form-group">
       <input type="text" id="fullURL" ng-model="search" class="form-control" value="" placeholder="輸入關鍵字查詢"/>          
-<!--	  <select class="form-control selectWidth" ng-model="district" ng-options="o for o in listDistrict">    
-        <option value="">-- 依區域搜尋 --</option>
-	  </select>-->
 	  <table class="table table-hover">
 	  		<thead>
 	        	<tr>
@@ -98,8 +95,8 @@
   </div>
  
   <div class="panel" ng-show="tab===2">
-    <label><input type="radio" name="isShow" value="0" checked> 顯示HeatMap </label>
-    <label><input type="radio" name="isShow" value="1"> 顯示節點</label>
+  <!--  <label><input type="radio" name="isShow" value="0" checked> 顯示HeatMap </label>
+    <label><input type="radio" name="isShow" value="1"> 顯示節點</label>-->
     <div id="map"></div>
   </div>
 
@@ -196,8 +193,8 @@
   <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-  <script src="http://maps.googleapis.com/maps/api/js?libraries=geometry,visualization,places"></script>  
-  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="//maps.googleapis.com/maps/api/js?libraries=geometry,visualization,places"></script>  
+  <script src="//googlemaps.github.io/js-marker-clusterer/src/markerclusterer_compiled.js"></script>
   <script src="./js/all.min.js"></script>
 
 
