@@ -5,18 +5,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     
-    <title>蘇迪勒颱風 - 台北市災害動態資訊</title>   
+    <title>台北市災害動態資訊</title>   
     
     <link rel="stylesheet" href="http://meyerweb.com/eric/tools/css/reset/reset.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">-->
     <link rel="stylesheet" href="https://cdn.rawgit.com/jtblin/angular-chart.js/master/dist/angular-chart.css">
     <link rel='stylesheet' href="./css/all.min.css">
 
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  m=s.getElementsByTagName(o);a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 	  ga('create', 'UA-19743390-17', 'auto');
@@ -27,14 +26,14 @@
 
 <body ng-app = "app">
  <header>  
-	 <h2>蘇迪勒颱風 - 台北市災害動態資訊</h2>
+	 <h2>台北市災害動態資訊</h2>
  </header> 
 
   <div ng-controller="GetDisasterSummary" class="col-lg-12">
   <div>
   <span>資料來源：<a href="https://tpe-doit.github.io/eoc_119/ghpage/" target="_blank">臺北市政府 消防局EOC 開放資料專區</a></span>  
-  <!--<span>更新時間：{{cases[0].CaseTime[0]}}</span>-->
-  <span style="float:right;"><small>Develop by <a href="https://github.com/ccjeng/TaipeiDisaster" target="_blank">Andy Cheng</a>, License: <a href="http://creativecommons.tw/cc0" target="_blank">CC0</a></small></span>
+  <!--<span>更新時間：{{cases.CaseTime}}</span>-->
+  <span style="float:right;"><small>Develop by <a href="https://github.com/ccjeng/TaipeiDisaster" target="_blank">Andy Cheng</a></small></span>
   </div>
 
   <span class="label label-success">已處理: {{caseDone}}</span> 
@@ -67,7 +66,7 @@
 
   <div class="panel" ng-show="tab===1">
    <div class="form-group">
-      <input type="text" id="fullURL" ng-model="search" class="form-control" value="" placeholder="輸入關鍵字查詢（因資料量龐大，僅顯示前100筆資料）"/>          
+      <input type="text" id="fullURL" ng-model="search" class="form-control" value="" placeholder="輸入關鍵字查詢"/>          
 <!--	  <select class="form-control selectWidth" ng-model="district" ng-options="o for o in listDistrict">    
         <option value="">-- 依區域搜尋 --</option>
 	  </select>-->
@@ -85,21 +84,22 @@
 	    	<tbody>
 	    		<tr ng-repeat="case in cases | filter:search | limitTo:100">
                 <!--<tr ng-repeat="case in cases | filter:(!!district || undefined) && {CaseComplete:'false', CaseLocationDistrict:district} | orderBy:orderByField:reverseSort | limitTo:100">-->
-					<td>{{case.CaseTime[0]}}</td>
-					<td>{{case.Name[0]}}</td>  
-					<td>{{case.CaseDescription[0]}}</td>  
-					<td>{{case.CaseLocationDistrict[0]}}</td>
-					<td>{{case.CaseLocationDescription[0]}}</td>
-                    <td><div ng-if="case.CaseComplete[0] == 'false'">待處理</div><div ng-if="case.CaseComplete[0] == 'true'">已處理</div>
+					<td>{{case.CaseTime}}</td>
+					<td>{{case.Name}}</td>  
+                    <td>{{case.CaseDescription}}</td>
+					<!--<td><a href="#" ng-click="openInfoWindow($event, case)">{{case.CaseDescription}}</a></td>  -->
+					<td>{{case.CaseLocationDistrict}}</td>
+					<td>{{case.CaseLocationDescription}}</td>
+                    <td><div ng-if="case.CaseComplete == 'false'">待處理</div><div ng-if="case.CaseComplete == 'true'">已處理</div>
                     </td>                    	
 		    	</tr>
 	    	</tbody>
 	  </table>
-    </div>
+    </div>   
   </div>
  
   <div class="panel" ng-show="tab===2">
-   <div id="map"></div>
+    <div id="map"></div>
   </div>
 
   <div class="panel" ng-show="tab===3">
@@ -202,7 +202,7 @@
   <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-  <script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>  
+  <script src="//maps.googleapis.com/maps/api/js?key=&sensor=false&extension=.js"></script>  
   <script src="./js/all.min.js"></script>
 
 
