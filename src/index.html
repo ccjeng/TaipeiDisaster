@@ -79,7 +79,7 @@
 	        	</tr>
 	    	</thead>
 	    	<tbody>
-	    		<tr ng-repeat="case in cases | filter:search | limitTo:100" ng-click="itemClicked($event, case)">
+	    		<tr ng-repeat="case in cases | filter:search | limitTo:100" ng-click="itemClicked($event, $index)">
 					<td>{{case.CaseTime}}</td>
 					<td>{{case.Name}}</td>  
                     <td>{{case.CaseDescription}}</td>

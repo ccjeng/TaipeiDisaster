@@ -99,13 +99,13 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
         $scope.markers.push(marker);
         
     };
-
+/*
     var cleanMarker = function() {
         var markers = $scope.markers;
         for (var i = 0; i < markers.length; i++) { markers[i].setMap(null); }
         $scope.markers = [];
     };
-
+*/
     $scope.total = {
       '路樹災情': 0,
       '民生、基礎設施災情': 0,
@@ -139,9 +139,9 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
     //$scope.listDistrict = ['中正區','大同區','中山區','松山區','大安區','萬華區','信義區','士林區','北投區','內湖區','南港區','文山區'];
 
     //$http.get('http://tonyq.org/kptaipei/GetDisasterSummary-20150808.php')
-    $http.get('https://tcgbusfs.blob.core.windows.net/blobfs/GetDisasterSummary.json')    
     //$http.get('./data/GetDisasterSummary.json')
-    
+
+    $http.get('https://tcgbusfs.blob.core.windows.net/blobfs/GetDisasterSummary.json')        
     .success(function(data, status, headers, config) {
       d = data.DataSet['diffgr:diffgram'].NewDataSet['CASE_SUMMARY'];
 
@@ -255,11 +255,9 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
     });
 
     //http://jsfiddle.net/pc7Uu/854/
-    $scope.itemClicked = function (e, selectedMarker) {
-        //$scope.selectedIndex = $index;
-        e.preventDefault();
-        google.maps.event.trigger(selectedMarker, 'click');
-        //console.log(selectedMarker);
+    $scope.itemClicked = function (e, index) {
+        //e.preventDefault();
+        google.maps.event.trigger($scope.markers[index], 'click');
     };
 
 
