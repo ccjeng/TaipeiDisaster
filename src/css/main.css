@@ -4,9 +4,10 @@ table {
 }
 
 #map {
-    height:100vh;
+	height: 600px;
+    /*height:100vh;
     display: block; 
-    /*width: 980px; height: 600px;*/
+    width: 980px; height: 600px;*/
 }
 
 
