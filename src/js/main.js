@@ -146,6 +146,9 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
       d = data.DataSet['diffgr:diffgram'].NewDataSet['CASE_SUMMARY'];
 
       $scope.dataTime = data.DataSet['-date'];
+
+      console.log(d);
+
       $scope.cases = d;
 
 /*
@@ -159,6 +162,7 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
 */
 
       var caseDone = 0, caseInProgress = 0, caseRate = 0.00;
+
       for (i = 0; i < d.length; i++){
         createMarker(d[i]);
       

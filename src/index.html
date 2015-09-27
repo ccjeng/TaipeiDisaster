@@ -75,18 +75,18 @@
 	            	<th>災情描述</th>
 	            	<th>行政區</th>
 	            	<th>災情地點</th>
-                    <th>案件狀態</th>
+                <th>案件狀態</th>
 	        	</tr>
 	    	</thead>
 	    	<tbody>
 	    		<tr ng-repeat="case in cases | filter:search | limitTo:100" ng-click="itemClicked($event, $index)">
-					<td>{{case.CaseTime}}</td>
-					<td>{{case.Name}}</td>  
-                    <td>{{case.CaseDescription}}</td>
-					<td>{{case.CaseLocationDistrict}}</td>
-					<td>{{case.CaseLocationDescription}}</td>
-                    <td><div ng-if="case.CaseComplete == 'false'">待處理</div><div ng-if="case.CaseComplete == 'true'">已處理</div>
-                    </td>                    	
+					  <td>{{case.CaseTime}}</td>
+					  <td>{{case.Name}}</td>  
+            <td>{{case.CaseDescription}}</td>
+					  <td>{{case.CaseLocationDistrict}}</td>
+					  <td>{{case.CaseLocationDescription}}</td>
+            <td><div ng-if="case.CaseComplete == 'false'">待處理</div><div ng-if="case.CaseComplete == 'true'">已處理</div>
+                </td>                    	
 		    	</tr>
 	    	</tbody>
 	  </table>
