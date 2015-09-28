@@ -2,6 +2,64 @@
 (function(){
 
 var app = angular.module('app', []);
+var map;
+
+//Get user location
+var defaultLocationLatitude = 25.06464;
+var defaultLocationLongitude = 121.55676;
+
+var currentLocationLatitude = defaultLocationLatitude;
+var currentLocationLongitude = defaultLocationLongitude;
+
+function getLocation() {
+  if (navigator.geolocation) {
+        var option={
+            enableAcuracy:false,
+            maximumAge:0,
+            timeout:600000
+        };
+        navigator.geolocation.getCurrentPosition(successCallback, errorCallback, option);
+  }
+  else {
+        alert('此瀏覽器不支援地理定位功能!');
+  }
+
+  function successCallback(position) {
+        currentLocationLatitude = position.coords.latitude;
+        currentLocationLongitude = position.coords.longitude;  
+        currentMarker(); 
+  }
+
+  function errorCallback(error) {
+        var errorTypes={
+              0:'不明原因錯誤',
+              1:'使用者拒絕提供位置資訊',
+              2:'無法取得位置資訊',
+              3:'位置查詢逾時'
+              };
+        alert(errorTypes[error.code]);
+        console.log('code=' + error.code + ' ' + error.message); //開發測試時用
+  }
+}
+
+function currentMarker(){
+
+  var GeoMarker = new GeolocationMarker(map);
+
+  GeoMarker.setCircleOptions({fillColor: '#808080'});
+
+  google.maps.event.addListenerOnce(GeoMarker, 'position_changed', function() {
+     map.setCenter(this.getPosition());
+     map.fitBounds(this.getBounds());
+  });
+
+  google.maps.event.addListener(GeoMarker, 'geolocation_error', function(e) {
+     alert('無法取得位置資訊. ' + e.message);
+  });
+
+  GeoMarker.setMap(map);
+
+}
 
 app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http) {
 
@@ -10,22 +68,21 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
 
 
     var mapOptions = {
-        zoom: 13,
-        center: new google.maps.LatLng(25.037525,121.563782),
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+ 		center: new google.maps.LatLng(currentLocationLatitude, currentLocationLongitude),
+    	zoom: 13,
+    	mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+    getLocation();
+
+    map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+    $scope.map = map;
 
     $scope.markers = [];
 
     var infoWindow = new google.maps.InfoWindow();
-/*
-    var draw_heatmap = function(info) {
-        var heatMapData = new google.maps.MVCArray(info);
-        var heatmap = new google.maps.visualization.HeatmapLayer({ data: heatMapData });
-        heatmap.setMap($scope.map);
-    };
-*/
+
     var createMarker = function (data){
       
         var pinColor = (data.CaseComplete === "true") ? "80e516" : "FE7569";
@@ -99,13 +156,7 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
         $scope.markers.push(marker);
         
     };
-/*
-    var cleanMarker = function() {
-        var markers = $scope.markers;
-        for (var i = 0; i < markers.length; i++) { markers[i].setMap(null); }
-        $scope.markers = [];
-    };
-*/
+
     $scope.total = {
       '路樹災情': 0,
       '民生、基礎設施災情': 0,
@@ -141,25 +192,18 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
     //$http.get('http://tonyq.org/kptaipei/GetDisasterSummary-20150808.php')
     //$http.get('./data/GetDisasterSummary.json')
 
+    //最新災害專案的災情資料
     $http.get('https://tcgbusfs.blob.core.windows.net/blobfs/GetDisasterSummary.json')        
     .success(function(data, status, headers, config) {
       d = data.DataSet['diffgr:diffgram'].NewDataSet['CASE_SUMMARY'];
 
       $scope.dataTime = data.DataSet['-date'];
 
-      console.log(d);
+      //console.log(d);
 
       $scope.cases = d;
 
-/*
-    var locationCoords = [];
 
-    d.map(function(p){
-      locationCoords.push( new google.maps.LatLng(p.Wgs84Y, p.Wgs84X) );
-    });
-
-    draw_heatmap(locationCoords);
-*/
 
       var caseDone = 0, caseInProgress = 0, caseRate = 0.00;
 
@@ -258,6 +302,18 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
       console.log('http error');
     });
 
+	//最新的會報指示決策資料
+    $http.get('https://tcgbusfs.blob.core.windows.net/blobfs/GetDisasterDecisionSummary.json')        
+    .success(function(data, status, headers, config) {
+    	$scope.decisions = data.DataSet['diffgr:diffgram'].NewDataSet['DCSDisasterDecision'];
+   	})
+
+    .error(function(data, status, headers, config) {
+      // log error
+      console.log('http error');
+    });
+
+
     //http://jsfiddle.net/pc7Uu/854/
     $scope.itemClicked = function (e, index) {
         //e.preventDefault();
@@ -269,6 +325,8 @@ app.controller('GetDisasterSummary', ['$scope', '$http', function($scope, $http)
 
 
 })();
+
+
 
 
 function isEmpty(str) {
