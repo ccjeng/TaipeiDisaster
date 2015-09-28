@@ -60,6 +60,9 @@
       <li ng-class="{ active: tab===3 }">
         <a href="" ng-click="tab=3">災情統計</a>
       </li>
+      <li ng-class="{ active: tab===4 }">
+        <a href="" ng-click="tab=4">會報指示決策</a>
+      </li>
    </ul>
 
 
@@ -178,6 +181,22 @@
             </tbody>
       </table>
 
+  </div>
+    <div class="panel" ng-show="tab===4">
+      <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>會報名稱 / 時間 / 主席</th>                                   
+                    <th>指示事項</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="decision in decisions | orderBy:'-DecisionTime'">
+                    <td>{{decision.DecisionName}}<br/><br/>{{decision.DecisionTime}}<br/><br/>{{decision.DecisionMan}}</td> 
+                    <td>{{decision.Decision}}</td>
+                </tr>
+            </tbody>
+      </table>
   </div>
   </section>
     </div>
